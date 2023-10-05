@@ -58,6 +58,26 @@ class GameSearcher:
         row, col = self.builder.edge_index
         return col[row == node]
 
+    def k_hop_neighbor_of(self, node: int, k: int, only: bool = True) -> np.ndarray:
+        if k == 0:
+            return np.array([node], dtype=np.int64)
+        
+        row, col = self.builder.edge_index
+
+        node_mask = np.zeros((k+1, self.num_nodes), dtype=np.bool_)
+        edge_mask = np.zeros((row.shape[0], ), dtype=np.bool_)
+        
+        subsets = np.array([node], dtype=np.int64)
+
+        # let "node_mask[hop]" be nodes with distance <= hop to "node"
+        for hop in range(k+1):
+            node_mask[hop:, subsets] = True
+            edge_mask = node_mask[hop][row]
+            subsets = col[edge_mask]
+        if only:
+            return np.arange(self.num_nodes, dtype=np.int64)[np.diff(node_mask, axis=0)[-1]]
+        return np.arange(self.num_nodes, dtype=np.int64)[node_mask[-1]]
+
     def search(self, arg_space, operation):
         """
         operation(state, *args)

@@ -36,7 +36,7 @@ In `game_search.py`, we provide a class `GameSearcher`, which searches the game 
 
 ## Tests
 
-We provide two tests to verify the correctness of our implementation.
+We provide three tests to verify the correctness of our implementation.
 
 ### Path and cycle counting power for $k$-FWL
 
@@ -48,3 +48,13 @@ In `test_fwl.py`, we verify that
 ### Counting power of local FWL(2) variants
 
 In `test_localfwl2.py`, we verify the modified versions of Lemmas F.18 ~ F.25 in the paper "A Complete Expressiveness Hierarchy for Subgraph GNNs via Subgraph Weisfeiler-Leman Tests". 
+
+### Cycle counting power for $d$-DRFWL(2)
+
+In `test_drfwl.py`, we verify that
+* 1-DRFWL(2) can count 3-cycles, but not longer cycles.
+* 2-DRFWL(2) can count up to 6-cycles, but not longer cycles.
+* 3-DRFWL(2) can count up to 7-cycles, but not longer cycles.
+These results comply with the conclusions drawn in the paper "Distance-Restricted Folklore Weisfeiler-Leman GNNs with Provable Cycle Counting Power".
+
+Plus, we verify that none of 1-DRFWL(2), 2-DRFWL(2) and 3-DRFWL(2) can count 7-paths, a result in agreement with the assertion that they are all less powerful than FWL(2).
